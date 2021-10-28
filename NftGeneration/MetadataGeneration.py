@@ -1,8 +1,8 @@
-import os
+from os import listdir
 import json
 from time import perf_counter
 
-dirlist = os.listdir("COOL_SHEEP_CLUB")
+dirlist = listdir("COOL_SHEEP_CLUB")
 imglist = []
 names = [
     "Background",
@@ -23,15 +23,17 @@ names = [
 ]
 t1 = perf_counter()
 
-for dir in dirlist:
-    imglist.append(os.listdir("COOL_SHEEP_CLUB/" + dir))
+baseURI = input("Input your nft images baseURI: ")
 
-file = open("parts.txt", "r")
+for dir in dirlist:
+    imglist.append(listdir("COOL_SHEEP_CLUB/" + dir))
+
+file = open("temp/parts.txt", "r")
 count = 1
 for line in file:
     jsonfile = open("METADATA/" + str(count), "w")
     metadata = {
-        "image": "ipfs://QmdtzxmYMK3uj9we68t94SwEFuwDJjqQ3TNRnwRexwowKx/" + str(count) + ".png",
+        "image": baseURI + str(count),
         "attributes": []
     }
     selection = line.split(",")
