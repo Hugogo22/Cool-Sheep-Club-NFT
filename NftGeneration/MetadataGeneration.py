@@ -1,8 +1,8 @@
-from os import listdir
+from os import listdir, path, mkdir
 import json
 from time import perf_counter
 
-dirlist = listdir("COOL_SHEEP_CLUB")
+dirlist = listdir(path.join(path.dirname(__file__), "COOL_SHEEP_CLUB"))
 imglist = []
 names = [
     "Background",
@@ -26,12 +26,17 @@ t1 = perf_counter()
 baseURI = input("Input your nft images baseURI: ")
 
 for dir in dirlist:
-    imglist.append(listdir("COOL_SHEEP_CLUB/" + dir))
+    imglist.append(listdir(path.join(path.dirname(__file__), "COOL_SHEEP_CLUB/" + dir)))
 
-file = open("temp/parts.txt", "r")
+try:
+    mkdir(path.join(path.dirname(__file__), "METADATA"))
+except FileExistsError:
+    None
+
+file = open(path.join(path.dirname(__file__), "temp/parts.txt"), "r")
 count = 1
 for line in file:
-    jsonfile = open("METADATA/" + str(count), "w")
+    jsonfile = open(path.join(path.dirname(__file__), "METADATA/" + str(count)), "w")
     metadata = {
         "image": baseURI + str(count),
         "attributes": []

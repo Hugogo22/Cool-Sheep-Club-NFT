@@ -13,6 +13,9 @@ async function main() {
     console.log("With name: %s ,and symbol: %s", await csc.name(), await csc.symbol());
 
     /*
+
+    ---The commented lines parts deploy the factory, which cannot be used on polygon
+
     console.log("csc default admin role :", await csc.hasRole(csc.DEFAULT_ADMIN_ROLE(), publicKey));
     
     const cscAdminGrant = await csc.grantRole(csc.ADMIN_ROLE(), publicKey);
@@ -20,7 +23,8 @@ async function main() {
     console.log("csc admin role :", await csc.hasRole(csc.ADMIN_ROLE(), publicKey));
     */
 
-    let baseURI = "ipfs://Qme5hcetpdYcAGXtsWf6q6wZ1qPLosD1hGp6SQ49KgBKjp/";
+    // -----> Paste your baseURI here <-----
+    let baseURI = "";
     const cscSetBaseURI = await csc.setBaseURI(baseURI);
     await cscSetBaseURI.wait();
     console.log("baseURI set");

@@ -11,8 +11,8 @@ alreadyGenerated = set()
 dirlist = os.listdir(os.path.join(os.path.dirname(__file__), "COOL_SHEEP_CLUB"))
 imglist = []
 selection = [0] * 15
-probability = [1] * 10001
-selectionnum = [[0] * 15] * 10001
+probability = [1] * 10000
+selectionnum = [[0] * 15] * 10000
 temp = [0] * 10
 p = [
     #background 0
@@ -48,7 +48,7 @@ p = [
     #chapo 82 15
     [0, 0, 0, 0, 0.06, 0, 0, 0, 0.1, 0.84],
     #nb accessoires 16
-    [0.6, 0.2, 0.1, 0.06, 0.03, 0.0097, 0.0007]
+    [0.6, 0.2, 0.1, 0.06, 0.03, 0.0097, 0.004]
 ]
 #Counts the number of times an accessory was selected
 #attrCount = [[0] for i in range(len(p[i]))] * 9
@@ -67,11 +67,16 @@ try:
     os.mkdir(os.path.join(os.path.dirname(__file__), "IMAGES"))
 except FileExistsError:
     None
+try:
+    os.mkdir(os.path.join(os.path.dirname(__file__), "temp"))
+except FileExistsError:
+    None
 file = open(os.path.join(os.path.dirname(__file__), "temp/parts.txt"), "w")
-for i in range(1, nbGen + 1):
+for gen in range(1, nbGen + 1):
+    i = gen-1
 
     if (i%500 == 0):
-        print(i)
+        print(str(i) + " done ...")
     
     #Random parts generation
 
@@ -186,7 +191,7 @@ for i in range(1, nbGen + 1):
         nimage.alpha_composite(im)
 
     nimage = nimage.convert("RGB")
-    nimage.save(os.path.join(os.path.dirname(__file__), "IMAGES/" + str(i)), "PNG")
+    nimage.save(os.path.join(os.path.dirname(__file__), "IMAGES/" + str(gen)), "PNG")
 
 print(nbtest)
 file.close()
@@ -194,19 +199,20 @@ file.close()
 
 #--- Price Generation ---
 
+print("Generating prices ...")
 pricesFile = open(os.path.join(os.path.dirname(__file__), "prices.txt"), "w")
 min = 1
 max = 0
 for i in range(1, nbGen + 1):
-    if (min > probability[i]):
-        min = probability[i]
-    if (max < probability[i]):
-        max = probability[i]
+    if (min > probability[i-1]):
+        min = probability[i-1]
+    if (max < probability[i-1]):
+        max = probability[i-1]
     #probability[i] = 1 / (1 + exp(probability[i]))
 
 for i in range(1, nbGen + 1):
-    probability[i] = exp((probability[i] - min)*100000000)*0.005
-    pricesFile.write(str(i) + " : " + str(probability[i]) + "\n")
+    probability[i-1] = exp((probability[i-1] - min)*100000000)*0.005
+    pricesFile.write(str(i) + " : " + str(probability[i-1]) + "\n")
 
 pricesFile.close()
 
