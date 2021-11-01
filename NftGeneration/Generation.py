@@ -2,7 +2,7 @@ import random
 import os
 from PIL import Image
 from time import perf_counter
-from math import exp, trunc
+from math import pow
 
 nbtest = [0] * 8
 
@@ -203,16 +203,17 @@ print("Generating prices ...")
 pricesFile = open(os.path.join(os.path.dirname(__file__), "prices.txt"), "w")
 min = 1
 max = 0
-for i in range(1, nbGen + 1):
+for i in range(1, 10001):
+    probability[i-1] = pow(1/(probability[i-1]), 1/3)
     if (min > probability[i-1]):
         min = probability[i-1]
     if (max < probability[i-1]):
         max = probability[i-1]
-    #probability[i] = 1 / (1 + exp(probability[i]))
 
-for i in range(1, nbGen + 1):
-    probability[i-1] = exp((probability[i-1] - min)*100000000)*0.005
-    pricesFile.write(str(i) + " : " + str(probability[i-1]) + "\n")
+for i in range(1, 10001):
+    probability[i-1] = ((0.1-0.005)*(probability[i-1] - min))/(max-min)+0.005
+    txt = str(i) + " : {:.4f}\n"
+    pricesFile.write(txt.format(probability[i-1]))
 
 pricesFile.close()
 
