@@ -1,6 +1,22 @@
 async function main() {
     console.log("\n----- START -----\n");
 
+    // -----> Paste your baseURI here <-----
+    let baseURI = "";
+
+    if (baseURI === ""){
+      const readline = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
+      await readline.question('Enter your BaseURI (Link to your metadata) :', name => {
+        baseURI = name;
+        console.log(`Hey there ${name}!`);
+        readline.close();
+      });
+    }
+
     //const publicKey = "";
     const openSeaProxyAddress = "0x58807baD0B376efc12F5AD86aAc70E78ed67deaE";
 
@@ -12,9 +28,11 @@ async function main() {
     console.log("CSC deployed to address:", await csc.address);
     console.log("With name: %s ,and symbol: %s", await csc.name(), await csc.symbol());
 
+
     /*
 
-    ---The commented lines parts deploy the factory, which cannot be used on polygon
+    ------- The commented lines parts deploy the factory, which cannot be used on polygon -------
+
 
     console.log("csc default admin role :", await csc.hasRole(csc.DEFAULT_ADMIN_ROLE(), publicKey));
     
@@ -23,11 +41,11 @@ async function main() {
     console.log("csc admin role :", await csc.hasRole(csc.ADMIN_ROLE(), publicKey));
     */
 
-    // -----> Paste your baseURI here <-----
-    let baseURI = "";
+    
     const cscSetBaseURI = await csc.setBaseURI(baseURI);
     await cscSetBaseURI.wait();
     console.log("baseURI set");
+
 
     /*
     const CSCFactory = await ethers.getContractFactory("CSCFactory");
