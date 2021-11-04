@@ -25,7 +25,7 @@ opt.add_argument("-profile")
 opt.add_argument(PathToProfile)
 s = Service(path.join(path.dirname(__file__), "geckodriver.exe"))
 
-file = open(path.join(path.dirname(__file__), "../NftGeneration/pricestest.txt"), "r")
+file = open(path.join(path.dirname(__file__), "../NftGeneration/prices.txt"), "r")
 
 nbstart = int(input("What is the start (included) of the range of nft you want to sell? "))
 nbend = int(input("What is the end (included) of the range of nft you want to sell? (You have to switch to firefox and login to metamask once you have answered) "))
